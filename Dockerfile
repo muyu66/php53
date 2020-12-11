@@ -1,6 +1,12 @@
 FROM centos:7
 MAINTAINER muyu.zhouyu@outlook.com
 
+# 更换中国源
+RUN sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+         -e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.ustc.edu.cn/centos|g' \
+         -i.bak \
+         /etc/yum.repos.d/CentOS-Base.repo
+
 # 安装依赖
 RUN yum makecache
 RUN yum -y install \
@@ -187,8 +193,8 @@ RUN cp -fR /data/package/nmp/config-php/* /data/server/php/etc/
 RUN install -v -m755 /data/package/nmp/php-5.3.29/sapi/fpm/init.d.php-fpm  /etc/init.d/php-fpm
 
 # 配置PHP环境变量
-RUN echo 'export PATH=$PATH:/data/server/mysql/bin:/data/server/nginx/sbin:/data/server/php/sbin:/data/server/php/bin' >> /etc/profile
-RUN export PATH=$PATH:/data/server/mysql/bin:/data/server/nginx/sbin:/data/server/php/sbin:/data/server/php/bin
+RUN echo 'export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin' >> /etc/profile
+RUN export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin
 
 EXPOSE 9000
-CMD php-fpm start
+CMD /data/server/php/sbin/php-fpm -F
