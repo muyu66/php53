@@ -4,6 +4,7 @@ MAINTAINER muyu.zhouyu@outlook.com
 # 安装依赖
 RUN yum makecache
 RUN yum -y install \
+        nginx \
         gcc gcc-c++ \
         make libtool \
         autoconf  automake\
