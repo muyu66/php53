@@ -215,5 +215,4 @@ RUN export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin
 # 后台启动nginx
 RUN /etc/init.d/nginx
 
-EXPOSE 9000
-CMD /data/server/php/sbin/php-fpm -F
+CMD /etc/init.d/nginx && /data/server/php/sbin/php-fpm -F
