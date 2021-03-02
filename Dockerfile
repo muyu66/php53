@@ -32,8 +32,6 @@ COPY package_src/libevent-1.4.14b.tar.gz /data/package/nmp/
 COPY package_src/jpegsrc.v6b.tar.gz /data/package/nmp/
 COPY package_src/freetype-2.1.10.tar.gz /data/package/nmp/
 COPY package_src/config-php.zip /data/package/nmp/
-# 拷贝nginx.conf, 以便于开箱即用
-COPY nginx.conf /etc/nginx/conf.d/
 
 # 安装libiconv库
 RUN cd /data/package/nmp && \
