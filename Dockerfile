@@ -212,7 +212,4 @@ RUN install -v -m755 /data/package/nmp/php-5.3.29/sapi/fpm/init.d.php-fpm  /etc/
 RUN echo 'export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin' >> /etc/profile
 RUN export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin
 
-# 后台启动nginx
-RUN /etc/init.d/nginx
-
 CMD /etc/init.d/nginx && /data/server/php/sbin/php-fpm -F
