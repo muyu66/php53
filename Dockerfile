@@ -4,7 +4,6 @@ MAINTAINER muyu.zhouyu@outlook.com
 # 安装依赖
 RUN yum makecache
 RUN yum -y install \
-        nginx \
         gcc gcc-c++ \
         make libtool \
         autoconf  automake\
@@ -33,8 +32,27 @@ COPY package_src/libevent-1.4.14b.tar.gz /data/package/nmp/
 COPY package_src/jpegsrc.v6b.tar.gz /data/package/nmp/
 COPY package_src/freetype-2.1.10.tar.gz /data/package/nmp/
 COPY package_src/config-php.zip /data/package/nmp/
+COPY package_src/nginx-1.16.1.tar.gz /data/packagchmod +x /etc/init.d/nginxe/nmp/
+
+# 安装nginx
+RUN cd /data/package/nmp && \
+       tar zxvf nginx-1.16.1.tar.gz && \
+       mkdir -p /data/server/nginx-1.16.1 && \
+       ln -s /data/server/nginx-1.16.1 /data/server/nginx && \
+       cd nginx-1.16.1 && \
+       ./configure --user=www \
+                --group=www \
+                --prefix=/data/server/nginx \
+                --with-http_stub_status_module \
+                --without-http-cache \
+                --with-http_ssl_module \
+                --with-http_gzip_static_module && \
+       make && make install && \
+       chmod 755 /data/server/nginx/sbin/nginx && mv /data/server/nginx/conf/nginx /etc/init.d/ && \
+       chmod +x /etc/init.d/nginx
+
 # 拷贝nginx.conf, 以便于开箱即用
-COPY default.conf /etc/nginx/conf.d/
+COPY default.conf /data/server/nginx/conf/
 
 # 安装libiconv库
 RUN cd /data/package/nmp && \
@@ -192,6 +210,8 @@ RUN install -v -m755 /data/package/nmp/php-5.3.29/sapi/fpm/init.d.php-fpm  /etc/
 # 配置PHP环境变量
 RUN echo 'export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin' >> /etc/profile
 RUN export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin
+
+RUN  /etc/init.d/nginx start
 
 EXPOSE 9000
 CMD /data/server/php/sbin/php-fpm -F
