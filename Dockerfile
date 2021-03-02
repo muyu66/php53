@@ -54,6 +54,8 @@ RUN cd /data/package/nmp && \
 # 拷贝nginx.conf, 以便于开箱即用
 COPY default.conf /data/server/nginx/conf/
 
+# RUN /etc/init.d/nginx start
+
 # 安装libiconv库
 RUN cd /data/package/nmp && \
         tar zxvf libiconv-1.13.1.tar.gz && \
@@ -210,8 +212,6 @@ RUN install -v -m755 /data/package/nmp/php-5.3.29/sapi/fpm/init.d.php-fpm  /etc/
 # 配置PHP环境变量
 RUN echo 'export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin' >> /etc/profile
 RUN export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin
-
-RUN  /etc/init.d/nginx start
 
 EXPOSE 9000
 CMD /data/server/php/sbin/php-fpm -F
