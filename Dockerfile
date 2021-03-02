@@ -48,7 +48,7 @@ RUN cd /data/package/nmp && \
                 --with-http_ssl_module \
                 --with-http_gzip_static_module && \
        make && make install && \
-       chmod 755 /data/server/nginx/sbin/nginx && mv /data/server/nginx/bin/nginx /etc/init.d/ && \
+       chmod 755 /data/server/nginx/sbin/nginx && cp /data/server/nginx/sbin/nginx /etc/init.d/ && \
        chmod +x /etc/init.d/nginx
 
 # 拷贝nginx.conf, 以便于开箱即用
