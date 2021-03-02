@@ -52,9 +52,7 @@ RUN cd /data/package/nmp && \
        chmod +x /etc/init.d/nginx
 
 # 拷贝nginx.conf, 以便于开箱即用
-COPY default.conf /data/server/nginx/conf/
-
-# RUN /etc/init.d/nginx start
+COPY nginx.conf /data/server/nginx/conf/
 
 # 安装libiconv库
 RUN cd /data/package/nmp && \
@@ -144,6 +142,7 @@ RUN mkdir -p /data/server && \
         mkdir -p /data/www && \
         mkdir -p /data/www/bbc && \
         mkdir -p /data/log/php && \
+        mkdir -p /data/log/nginx && \
         mkdir -p /data/backup
 
 # 创建用户
@@ -212,6 +211,9 @@ RUN install -v -m755 /data/package/nmp/php-5.3.29/sapi/fpm/init.d.php-fpm  /etc/
 # 配置PHP环境变量
 RUN echo 'export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin' >> /etc/profile
 RUN export PATH=$PATH:/data/server/php/sbin:/data/server/php/bin
+
+# 后台启动nginx
+RUN /etc/init.d/nginx
 
 EXPOSE 9000
 CMD /data/server/php/sbin/php-fpm -F
