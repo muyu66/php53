@@ -32,7 +32,7 @@ COPY package_src/libevent-1.4.14b.tar.gz /data/package/nmp/
 COPY package_src/jpegsrc.v6b.tar.gz /data/package/nmp/
 COPY package_src/freetype-2.1.10.tar.gz /data/package/nmp/
 COPY package_src/config-php.zip /data/package/nmp/
-COPY package_src/nginx-1.16.1.tar.gz /data/packagchmod +x /etc/init.d/nginxe/nmp/
+COPY package_src/nginx-1.16.1.tar.gz /data/package/nmp/
 
 # 安装nginx
 RUN cd /data/package/nmp && \
