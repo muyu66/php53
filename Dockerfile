@@ -33,6 +33,7 @@ COPY package_src/jpegsrc.v6b.tar.gz /data/package/nmp/
 COPY package_src/freetype-2.1.10.tar.gz /data/package/nmp/
 COPY package_src/config-php.zip /data/package/nmp/
 COPY package_src/nginx-1.16.1.tar.gz /data/package/nmp/
+COPY package_src/mongodb-1.4.4.tgz /data/package/nmp/
 
 # 安装nginx
 RUN cd /data/package/nmp && \
@@ -54,6 +55,14 @@ RUN cd /data/package/nmp && \
 # 拷贝nginx.conf, 以便于开箱即用
 COPY nginx.conf /data/server/nginx/conf/
 
+# 安装mongodb库
+RUN cd /data/package/nmp && \
+        tar zxvf mongodb-1.4.4.tgz  && \
+        cd mongodb-1.4.4 && \
+        ./configure && \
+        make && \
+        make install
+        
 # 安装libiconv库
 RUN cd /data/package/nmp && \
         tar zxvf libiconv-1.13.1.tar.gz && \
